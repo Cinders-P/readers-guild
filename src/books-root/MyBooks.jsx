@@ -1,18 +1,20 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import FormContainer from './upload-form/FormContainer.jsx';
-import toggleUpload from './toggleUpload.js';
+import { toggleUpload } from './actions.js';
 
-const MyBooks = ({ toggleUpload }) => (
+const MyBooks = ({ uploadVisible, toggleUpload }) => (
 		<div className='books-root'>
 			<h2>My Books
-				<span onClick={toggleUpload}> (upload)</span>
+				<span onClick={ toggleUpload }> (upload)</span>
 			</h2>
-			<FormContainer />
+			{(uploadVisible) ? <FormContainer /> : null }
 			<p>None</p>
 		</div>
 	);
 
+const mapStateToProps = (store) => ({ uploadVisible: store.myBooks.uploadVisible });
+
 const mapDispatchToProps = (dispatch) => bindActionCreators({ toggleUpload }, dispatch);
 
-export default connect(null, mapDispatchToProps)(MyBooks);
+export default connect(mapStateToProps, mapDispatchToProps)(MyBooks);

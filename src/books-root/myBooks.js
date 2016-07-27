@@ -1,5 +1,7 @@
 export default (state = {}, action) => {
 	switch (action.type) {
+	case 'TOGGLE_UPLOAD':
+		return { ...state, uploadVisible: !state.uploadVisible };
 	case 'ADD_COVER':
 		return { ...state, cover: action.payload };
 	case 'UPLOAD_ERROR':
