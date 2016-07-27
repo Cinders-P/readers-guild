@@ -1,8 +1,9 @@
+const uploadRoute = require('./controllers/upload');
 let loggedIn = false;
 
 // MAIN ROUTER
 module.exports = (app, passport) => {
-	require('./controllers/upload')(app);
+	uploadRoute(app);
 
 	app.use((req, res, next) => {
 		if (req.isAuthenticated()) {
@@ -12,12 +13,6 @@ module.exports = (app, passport) => {
 			loggedIn = false;
 		}
 		next();
-	});
-
-	app.get('/test', (req, res) => {
-		res.render('test', {
-			loggedIn: true,
-		});
 	});
 
 	app.get('/', (req, res) => {

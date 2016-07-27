@@ -26,11 +26,30 @@ const master = combineReducers({ myBooks });
 const middleware = applyMiddleware(logger(), thunk);
 
 $(() => {
-	ReactDOM.render(
+	if (document.getElementById('profile-root')) {
+		ReactDOM.render(
 		<Provider store={createStore(master, initialState, middleware)}>
 		<div className='container centered'>
+			<div className='flex-row'>
+				<img id='profile' src='https://placeholdit.imgix.net/~text?txtsize=23&bg=ffffff&txtclr=000000&txt=250%C3%97250&w=250&h=250'/>
+				<div>
+					<h2>Username</h2>
+					<p>City Name</p>
+					<p>Edit Profile</p>
+				</div>
+			</div>
 			<MyBooks/>
 			<hr/>
+			<div className='trades-root'>
+				<h2>Trades Pending</h2>
+				<p>None</p>
+			</div>
+			<hr/>
+			<div className='trades-done'>
+				<h2>Trade History</h2>
+				<p>None</p>
+			</div>
 		</div>
-	</Provider>, document.getElementById('root'));
+	</Provider>, document.getElementById('profile-root'));
+	}
 });

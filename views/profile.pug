@@ -1,23 +1,4 @@
 extends ./layout.pug
 
 block content
-    .container.centered
-        .flex-row
-            img#profile(src='https://placeholdit.imgix.net/~text?txtsize=23&bg=ffffff&txtclr=000000&txt=250%C3%97250&w=250&h=250')
-            div
-                h2=username
-                if city.length > 0
-                    p=city
-                p Edit Profile
-        .books-root
-            h2 My Books 
-                span (upload)
-            p None
-        hr
-        .trades-root
-            h2 Trades Pending
-            p None
-        hr
-        .trades-done
-            h2 Trade History
-            p None
+    #profile-root
