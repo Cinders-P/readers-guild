@@ -1,0 +1,323 @@
+
+
+ribbonColor = FireBrick
+yel = moccasin
+trans-yel = rgba(228, 217, 168, 0.72)
+dgray = rgb(29, 28, 26)
+
+::-webkit-input-placeholder
+    color:    trans-yel !important
+:-moz-placeholder
+   color:    trans-yel !important
+::-moz-placeholder
+   color:    trans-yel !important
+:-ms-input-placeholder
+   color:    trans-yel !important
+
+html,
+body
+	position relative
+	min-width 1100px
+	min-height 100vh
+	background-color dgray
+	font-family Helvetica, Arial, Sans-Serif
+header
+	font-family Mirza
+	display flex
+	width 100%
+	background-color white
+	min-height 170px
+	white-space nowrap
+	justify-content: space-between
+	& h1
+		color black
+		font-weight 700
+		padding  15px 40px
+		font-size 3rem
+		& .fa
+			font-size 2.2rem
+	& ul
+		font-weight 500
+		margin-left auto
+		font-size 1.5rem
+		min-width 500px
+		& li
+			list-style-type: none
+			display inline-block
+			color black
+			padding 15px 30px
+			&:hover
+				color dimgray
+
+.window .alert
+	position absolute
+	left 50%
+	width 87%
+	transform translate(-50%, -70%)
+	& span
+		position absolute
+		top 0
+		right 5px
+		font-size 2rem
+		line-height 1
+		cursor pointer
+
+.clear
+	clear both
+
+.ribbon
+	width 100%
+	height 20px
+	background-color ribbonColor
+.ribbon:last-of-type
+	position absolute
+	bottom 50px
+
+.form-control
+	transition border-color 0.2s
+	&:invalid
+		box-shadow none
+	&:focus:invalid
+		border-color red !important
+
+.container
+	min-width 900px
+	color yel
+	& form
+		& .form-control
+			margin-bottom 10px
+			background-color dgray
+			border-radius 2px
+			color yel
+			border-color trans-yel
+		& .btn
+			float right
+			border-width 1px
+		& .float-left
+			float left
+			width 180px
+		& a
+			color trans-yel
+			text-decoration: none
+			&:hover
+				color yel
+	& h2
+		font-family Mirza
+
+#profile
+	margin-right 20px
+.flex-row
+	padding-top 2vh
+	p
+		margin-bottom 0
+
+.trades-root,
+.trades-done,
+.books-root
+	align-self flex-start
+	width 100%
+
+.books-root
+	span
+		color: trans-yel
+		cursor pointer
+
+.centered
+	display flex
+	justify-content: center
+	align-items: center
+	flex-direction: column
+	min-height 500px
+	& img
+		height 100px
+		width 100px
+.window
+	background-image: url('/img/library.jpg')
+	background-position 0 50px
+	position relative
+	width 100%
+	min-height 300px
+	background-attachment: fixed
+	z-index 2
+	& form
+		position absolute
+		top: 50%
+		left 63%
+		transform translateY(-50%)
+		height: 500px
+		width 400px
+		background-color: ribbonColor
+		box-shadow 3px 3px 20px -10px black
+		padding-top 40px
+		& .heading
+			padding 0 40px
+			color yel
+		& .form-control
+			margin-bottom 10px
+			background-color transparent
+			border-radius 0
+			border 0
+			border-bottom 2px solid yel
+			font-size 1.4rem
+			color yel
+		& .inputs
+			padding 20px 40px
+			color yel
+			& label:last-of-type
+				margin-top 10px
+		& .btn
+			position: absolute
+			bottom: 60px
+			right 40px
+	& + div
+		position relative
+		padding-top 80px
+		box-shadow 0px 0px 20px -5px black
+		color rgba(255,255,255,0.8)
+		z-index 1
+
+.btn
+	background-color transparent
+	border 2px solid yel
+	color yel
+	transition all 0.2s ease-out
+	&:hover
+		background-color yel
+		color black
+
+.books
+	background-attachment: fixed
+	width 100%
+	min-height 300px
+	background-image: url('/img/wood.jpg')
+
+.row
+	margin-bottom  80px
+	font-size 1.3rem
+	&:last-of-type
+		margin-bottom 100px
+
+footer
+	min-height 50px
+	text-align: center
+	background-color ribbonColor
+	position absolute
+	bottom: 0
+	width 100%
+	color yel
+	padding-top 10px
+	& a
+		color trans-yel
+		text-decoration: none
+		&:hover
+			color yel
+			text-decoration: none
+
+.sliding-middle-out
+	display: inline-block;
+	position: relative;
+	padding-bottom: 3px;
+
+.sliding-middle-out:after
+	content: '';
+	display: block;
+	margin: auto;
+	height: 3px;
+	width: 0px;
+	background: transparent;
+	transition: width .8s ease, background-color .8s ease
+.sliding-middle-out:hover:after
+	width: 100%;
+	background: black
+
+.invisible-children
+	width: 180px
+	height 250px
+	display block
+	margin 50px
+
+
+.flex-row
+	margin auto
+	display flex
+	flex-wrap wrap
+	justify-content: center
+	padding-bottom 100px
+	& .combo
+		box-shadow 0px 0px 20px -5px black
+		margin 50px
+		position relative
+	& .bookListing
+		width: 180px
+		height 250px
+		background-size: cover
+		background-image: url('/img/covers/Thebladeitself.jpg')
+		float left
+	& .bookCard
+		opacity 0
+		position: absolute
+		z-index 2
+		height 250px
+		box-sizing: border-box
+		display flex
+		width: 180px
+		overflow: hidden
+		flex-direction column
+		justify-content space-between
+		align-items center
+		color yel
+		background-color ribbonColor
+		transition all 0.2s ease-out
+		padding 15px 0
+		& h4
+			margin-bottom 3px
+			font-family Mirza
+			width 150px
+
+.notif
+	width 70px
+	height 70px
+	display flex
+	justify-content: center
+	align-items: center
+	color yel
+	font-size 2rem
+	cursor: pointer
+	border-radius 50%
+	background-color ribbonColor
+	box-shadow 0px 0px 20px -5px black
+	position fixed
+	bottom 20px
+	right 20px
+	z-index 5
+
+#uploadForm
+	width 100%
+	padding-bottom 50px
+	& .box
+		position relative
+		width 500px
+		height 300px
+		background-color rgba(0,0,0,0.2)
+		outline 1px dashed trans-yel
+		outline-offset -10px
+		margin 10px 0
+	& .over
+		background-color rgba(255,255,255,0.1)
+	& .input-group
+		display: inline-block
+		&:first-child
+			width: 15%
+		&:nth-child(2)
+			width 30%
+	& button
+		float none
+		margin-top 10px
+
+.boxOver
+	position absolute
+	height 100%
+	width 100%
+	display flex
+	justify-content: center
+	align-items: center

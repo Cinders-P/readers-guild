@@ -1,0 +1,46 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="utf-8")
+        title The Reader's Guild
+        link(href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css", rel="stylesheet", integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd", crossorigin="anonymous")
+        script(src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous")
+        script(src="/socket.io/socket.io.js")
+        script(src="https://fb.me/react-with-addons-15.2.1.min.js")
+        script(src="https://fb.me/react-dom-15.2.1.min.js")
+        link(href="/css/home.css" rel="stylesheet")
+        link(href="https://fonts.googleapis.com/css?family=Mirza:500,700" rel="stylesheet")
+        link(href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet")
+        link(href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/dropzone.css" rel="stylesheet")
+        link(href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/basic.min.css" rel="stylesheet")
+
+    body
+        script(src="/js/bundle.js")
+        header
+            a(href="/")
+                h1.sliding-middle-out
+                    i.fa.fa-shield(aria-hidden="true")
+                    |  The Readers' Guild
+            ul
+                a(href='/')
+                    li Home
+                a(href="/explore")
+                    li Explore
+                if loggedIn
+                    a(href='/profile')
+                        li Account
+                else
+                    a(href='/login')
+                        li Login
+                if loggedIn
+                    a(href='/logout')
+                        li Sign out
+            .clear
+        .ribbon
+        block content
+        footer
+            | Website by 
+            a(href="http://freecodecamp.com/Cinders-P")
+                strong Cinders-P
+        if loggedIn
+            .notif 0

@@ -1,0 +1,31 @@
+extend ./layout.pug
+
+block content
+    .window
+        if (!loggedIn)
+            form(action='/signup' method='post')
+                .heading
+                    h3 Sign up for 
+                        strong free
+                        |  today.
+                    p Kickstart your reading journey.
+                if message.length > 0
+                    .alert.alert-danger=message
+                        span &times;
+                .inputs
+                    input.form-control(required type='text' name='username' placeholder='Username')
+                    input.form-control(required type='password' name='password' placeholder='Password')
+                    input.form-control(required type='email' name='email' placeholder='Email')
+                    label
+                        input(type="checkbox" name='newsletter' value='true')
+                        |  Yes, email me monthly newsletters and information about upcoming events.
+                    button.btn Submit	
+    div
+        .container
+            .row
+                i.fa.fa-globe.fa-4x.col-xs-2(aria-hidden="true")
+                p.col-xs-6 The Readers' Guild is a book trading club powered by readers across the globe. Stay informed of the latest happenings in literature.
+            .row
+                i.fa.fa-book.fa-4x.col-xs-2(aria-hidden="true")
+                p.col-xs-6 Send and receive trade requests with our real-time trading system. No delays, no fuss. Access the site's catalogue to browse for books.
+    .books

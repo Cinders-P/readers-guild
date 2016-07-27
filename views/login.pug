@@ -1,0 +1,19 @@
+extends ./layout.pug
+
+block content
+    .container.centered
+        form(method='post' action='/login')
+            h2 Login to your account
+            hr
+            if message.length > 0
+                p=message
+            .input-group
+                label Username
+                input.form-control(required name='username' type='text')
+            .input-group
+                label Password
+                input.form-control(required name='password' type='password')
+            hr
+            button.btn Submit
+            .float-left 
+                a(href="/") Or register on the front page.

@@ -1,0 +1,29 @@
+{
+  "extends": ["airbnb-base", "plugin:react/recommended"],
+  "rules": {
+	  "no-console": "off",
+	  "indent": ["error", "tab"],
+	 "quotes": ["error", "single", {"avoidEscape": true, "allowTemplateLiterals": true}],
+	 "no-param-reassign": "off",
+	 "flow-vars/define-flow-type": 1,
+	 "flow-vars/use-flow-type": 1
+	},
+	"globals": {
+    "$": false,
+	"io": true
+	},
+	"parser": "babel-eslint",
+	"plugins": [
+	    "react",
+		"flow-vars",
+		"babel"
+	],
+	"parserOptions": {
+    	"ecmaFeatures": {
+    		"jsx": true
+    	}
+	},
+	"env": {
+		"browser": true
+	}
+}
