@@ -1,4 +1,4 @@
-if (document.querySelector('.window')) {
+if ($('.window')) {
 	window.onscroll = () => {
 		const speed = 0.5;
 		document.querySelector('.window')

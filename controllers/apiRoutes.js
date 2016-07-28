@@ -2,10 +2,16 @@ const Book = require('../models/book');
 const User = require('../models/user');
 
 module.exports = (app) => {
+	app.get('/api/all-books', (req, res) => {
+		Book.find({}, (err, data) => {
+			res.json(data);
+			res.end();
+		});
+	});
+
 	app.use('/api/*', (req, res, next) => {
-		console.log('checking auth');
 		if (!req.isAuthenticated()) {
-			res.end('You are not logged in.');
+			res.sendStatus(401).end('You are not logged in.');
 			return;
 		}
 		next();

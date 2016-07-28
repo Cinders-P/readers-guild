@@ -46,9 +46,7 @@ module.exports = (app) => {
 					return new Promise((resolve) => {
 						User.findOneAndUpdate({ 'local.username': req.user.local.username }, {
 							$set: { 'local.realname': fields.realname },
-						}, () => {
-							resolve();
-						});
+						}, resolve);
 					});
 				}
 				return 1;
@@ -58,21 +56,17 @@ module.exports = (app) => {
 					return new Promise((resolve) => {
 						User.findOneAndUpdate({ 'local.username': req.user.local.username }, {
 							$set: { 'local.city': fields.city },
-						}, () => {
-							resolve();
-						});
+						}, resolve);
 					});
 				}
 				return 1;
 			};
 			const p3 = () => {
 				if (files.picture) {
-					return new Promise((resolve, reject) => {
+					return new Promise((resolve) => {
 						User.findOneAndUpdate({ 'local.username': req.user.local.username }, {
 							$set: { 'local.picture': files.picture.path.match(/profile-pics\\(\w+\.\w+)/)[1] },
-						}, () => {
-							resolve();
-						});
+						}, resolve);
 					});
 				}
 				return 1;
