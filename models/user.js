@@ -14,9 +14,11 @@ const UserSchema = mongoose.Schema({
 			type: String,
 			default: '',
 		},
+		realname: {
+			type: String,
+			default: '',
+		},
 		newsletter: Boolean,
-		books: [String],
-		trades: [String],
 	},
 });
 

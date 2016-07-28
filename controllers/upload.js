@@ -1,10 +1,11 @@
 const formidable = require('formidable');
 const Book = require('../models/book');
+const User = require('../models/user');
 
 module.exports = (app) => {
 	app.post('/upload', (req, res) => {
 		if (!req.isAuthenticated()) {
-			res.sendStatus(401).end();
+			res.sendStatus(401).redirect('/');
 			return;
 		}
 		const form = new formidable.IncomingForm();
@@ -27,5 +28,69 @@ module.exports = (app) => {
 			});
 		});
 		res.end();
+	});
+
+	app.post('/update-user', (req, res) => {
+		if (!req.isAuthenticated()) {
+			res.sendStatus(401).redirect('/');
+			return;
+		}
+		const form = new formidable.IncomingForm();
+		form.uploadDir = './public/img/profile-pics';
+		form.keepExtensions = true;
+		form.type = 'multipart/form-data';
+		form.parse(req, (err, fields, files) => {
+			// only update the fields which had values in the form
+			const p1 = () => {
+				if (fields.realname.length) {
+					return new Promise((resolve) => {
+						User.findOneAndUpdate({ 'local.username': req.user.local.username }, {
+							$set: { 'local.realname': fields.realname },
+						}, () => {
+							resolve();
+						});
+					});
+				}
+				return 1;
+			};
+			const p2 = () => {
+				if (fields.city.length) {
+					return new Promise((resolve) => {
+						User.findOneAndUpdate({ 'local.username': req.user.local.username }, {
+							$set: { 'local.city': fields.city },
+						}, () => {
+							resolve();
+						});
+					});
+				}
+				return 1;
+			};
+			const p3 = () => {
+				if (files.picture) {
+					return new Promise((resolve, reject) => {
+						User.findOneAndUpdate({ 'local.username': req.user.local.username }, {
+							$set: { 'local.picture': files.picture.path.match(/profile-pics\\(\w+\.\w+)/)[1] },
+						}, () => {
+							resolve();
+						});
+					});
+				}
+				return 1;
+			};
+			const promises = [p1(), p2(), p3()];
+			Promise.all(promises).then(() => {
+				// Triggers an update action on response,
+				// so we have to wait until the db processes are finished
+				User.findOne({ 'local.username': req.user.local.username }, {
+					'local.username': 1,
+					'local.city': 1,
+					'local.picture': 1,
+					'local.realname': 1,
+				}, (err, user) => {
+					res.json(user.local);
+					res.end();
+				});
+			});
+		});
 	});
 };

@@ -102,12 +102,32 @@ header
 	& h2
 		font-family Mirza
 
+.link
+	color trans-yel
+	text-decoration: none
+	cursor: pointer
+	&:hover
+		color yel
+
 #profile
 	margin-right 20px
+	height 100px
+	width 100px
+	background-size cover
+	background-position center
 .flex-row
 	padding-top 2vh
 	p
 		margin-bottom 0
+
+#profile-text
+	& h2
+		line-height 0.9
+		margin-top -7px
+	& .shift-up
+		margin-top -3px
+		margin-bottom 5px
+
 
 .trades-root,
 .trades-done,
@@ -132,6 +152,7 @@ header
 	flex-direction: column
 	min-height 500px
 	padding-bottom 50px
+	padding-top 50px
 	& img
 		height 100px
 		width 100px
@@ -320,6 +341,14 @@ footer
 		float none
 		margin-top 10px
 
+#userEditForm
+	width 300px
+	& label
+		margin-bottom -3px
+	& .input-group
+		width 100%
+	& > .input-group:last-of-type .form-control
+		border 0
 .boxOver
 	position absolute
 	height 100%

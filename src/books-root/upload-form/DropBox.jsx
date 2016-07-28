@@ -35,8 +35,8 @@ class dropBox extends Component {
 		});
 	}
 	triggerInput() {
-		$('input[type="file"]').click().bind('change', () => {
-			const input = $('input[type="file"]');
+		$('#hiddenin').click().bind('change', () => {
+			const input = $('#hiddenin');
 			const file = input[0].files[0];
 			this.checkFile(file);
 		});
@@ -49,7 +49,7 @@ class dropBox extends Component {
 		return (
 			<div>
 				{msg}
-				<input type='file' hidden></input>
+				<input id='hiddenin' type='file' hidden></input>
 				<div className='box' id='drop'>
 				<div onClick={ this.triggerInput.bind(this) } className='boxOver'>
 					Drop a book cover image.

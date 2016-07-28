@@ -4,11 +4,21 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
-import './jQ.js';
+import './parallax.js';
 import MyBooks from './books-root/MyBooks.jsx'; // Components/containers are PascalCase
+import Info from './user-info/Info.jsx';
 import myBooks from './books-root/myBooks.js'; // Actions/reducers are camelCase
+import user from './user-info/user.js';
+import userEdit from './user-info/userEdit.js';
 
 const initialState = {
+	userEdit: false,
+	user: {
+		username: '',
+		realname: '',
+		city: '',
+		picture: '',
+	},
 	myBooks: {
 		uploadVisible: false,
 		uploadError: 0,
@@ -19,25 +29,35 @@ const initialState = {
 		books: [],
 	},
 };
-const master = combineReducers({ myBooks });
+
+const master = combineReducers({ userEdit, myBooks, user });
 const middleware = applyMiddleware(logger(), thunk);
 
 $(() => {
 	if (document.getElementById('profile-root')) {
-		$.get('/api/my-books', (res) => {
-			initialState.myBooks.books = res;
-		}).done(() => {
+		const p1 = new Promise((resolve) => {
+			$.get('/api/user', (res) => {
+				console.log(res);
+				console.log('===');
+				console.log(initialState);
+				initialState.user = res;
+				console.log('===');
+				console.log(initialState);
+			}).done(resolve);
+		});
+		const p2 = new Promise((resolve) => {
+			$.get('/api/my-books', (res) => {
+				initialState.myBooks.books = res;
+			}).done(resolve);
+		});
+		// only render elements after intialState is setup
+		Promise.all([p1, p2]).then(() => {
+			console.log('setting up');
+			console.log(initialState);
 			ReactDOM.render(
 			<Provider store={createStore(master, initialState, middleware)}>
 			<div className='container centered'>
-				<div className='flex-row'>
-					<img id='profile' src='https://placeholdit.imgix.net/~text?txtsize=23&bg=ffffff&txtclr=000000&txt=250%C3%97250&w=250&h=250'/>
-					<div>
-						<h2>Username</h2>
-						<p>City Name</p>
-						<p>Edit Profile</p>
-					</div>
-				</div>
+				<Info />
 				<MyBooks/>
 				<hr/>
 				<div className='trades-root'>
@@ -51,7 +71,7 @@ $(() => {
 				</div>
 			</div>
 		</Provider>, document.getElementById('profile-root'));
-		}).done(() => {
+		}).then(() => {
 			$('.bookCard').hover(function hoveron() {
 				$(this).css('opacity', 1);
 			}, function hoveroff() {
