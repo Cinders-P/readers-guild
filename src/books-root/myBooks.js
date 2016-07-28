@@ -11,6 +11,8 @@ export default (state = {}, action) => {
 		return { ...state, uploadError: 0, cover: '' };
 	case 'UPLOAD_FAIL':
 		return { ...state, uploadError: 4 };
+	case 'REFRESH_MY_BOOKS':
+		return { ...state, books: action.payload };
 	default:
 		return state;
 	}

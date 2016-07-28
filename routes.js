@@ -1,9 +1,11 @@
 const uploadRoute = require('./controllers/upload');
+const apiRoutes = require('./controllers/apiRoutes');
 let loggedIn = false;
 
 // MAIN ROUTER
 module.exports = (app, passport) => {
 	uploadRoute(app);
+	apiRoutes(app);
 
 	app.use((req, res, next) => {
 		if (req.isAuthenticated()) {

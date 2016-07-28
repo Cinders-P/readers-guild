@@ -36,6 +36,17 @@ export const submitForm = (cover) => {
 			dispatch({ type: 'UPLOAD_SUCCESS' });
 			document.getElementById('uploadForm').reset();
 			$('.boxOver').text('Drop a book cover image.');
+		}).done(() => {
+			$.get('/api/my-books', (res) => {
+				if (Array.isArray(res)) {
+					dispatch({ type: 'REFRESH_MY_BOOKS', payload: res });
+					$('.bookCard').hover(function hoveron() {
+						$(this).css('opacity', 1);
+					}, function hoveroff() {
+						$(this).css('opacity', 0);
+					});
+				}
+			});
 		}).fail(() => {
 			dispatch({ type: 'UPLOAD_FAIL' });
 		});
