@@ -1,3 +1,5 @@
+/* global loggedIn*/
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
@@ -11,9 +13,15 @@ import Explorer from './explore-root/Explorer.jsx';
 import myBooks from './books-root/myBooks.js'; // Actions/reducers are camelCase
 import user from './user-info/user.js';
 import userEdit from './user-info/userEdit.js';
+import tradePanel from './explore-root/tradePanel.js';
+import allBooks from './explore-root/allBooks.js';
 
 const initialState = {
 	userEdit: false,
+	tradePanel: {
+		show: false,
+		selectedBook: '',
+	},
 	user: {
 		username: '',
 		realname: '',
@@ -30,9 +38,17 @@ const initialState = {
 		books: [],
 	},
 	allBooks: {},
+	loggedIn: false,
 };
 
-const master = combineReducers({ userEdit, myBooks, user });
+const master = combineReducers({
+	userEdit,
+	myBooks,
+	user,
+	loggedIn: (state = false) => state,
+	tradePanel,
+	allBooks,
+});
 const middleware = applyMiddleware(logger(), thunk);
 
 const renderProfile = (...promises) => {
@@ -66,11 +82,23 @@ const renderProfile = (...promises) => {
 
 $(() => {
 	if (document.getElementById('explore-root')) {
-		new Promise((resolve) => {
+		// loggedIn in is passed through Express into the Pug template into here
+		initialState.loggedIn = loggedIn;
+		const p1 = new Promise((resolve) => {
 			$.get('/api/all-books', (res) => {
 				initialState.allBooks = res;
 			}).done(resolve);
-		}).then(() => {
+		});
+		let p2 = 1;
+		if (loggedIn) {
+			// List of owned books is needed for making trade requests
+			p2 = new Promise((resolve) => {
+				$.get('/api/my-books', (res) => {
+					initialState.myBooks.books = res;
+				}).done(resolve);
+			});
+		}
+		Promise.all([p1, p2]).then(() => {
 			ReactDOM.render(
 				<Provider store={createStore(master, initialState, middleware)}>
 					<Explorer />

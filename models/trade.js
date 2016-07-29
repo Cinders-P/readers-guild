@@ -5,7 +5,7 @@ const TradeSchema = mongoose.Schema({
 	recipient: String,
 	book1: String,
 	book2: String,
-	completed: Boolean,
+	completed: { type: Boolean, default: false },
 });
 
 const Trade = mongoose.model('bookGuildTrade', TradeSchema);

@@ -11,7 +11,7 @@ const MyBooks = ({ uploadVisible, toggleUpload, deleteBook, books }) => (
 			{/* if User has clicked upload, show them the form */}
 			{(uploadVisible) ? <FormContainer /> : null }
 			<div className='flex-row'>
-			{/* if User has books, show the books, otherwise display 'None' */}
+			{/* if User has books, show the books*/}
 			{ (books.length) ?
 			books.map((book) =>
 				<div className='combo'>
@@ -28,7 +28,7 @@ const MyBooks = ({ uploadVisible, toggleUpload, deleteBook, books }) => (
 						</div>
 					</div>
 				</div>
-			) : <p>None</p> }
+			) : null}
 			</div>
 		</div>
 	);

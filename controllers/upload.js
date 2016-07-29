@@ -1,11 +1,11 @@
 const formidable = require('formidable');
 const Book = require('../models/book');
+const Trade = require('../models/trade');
 const User = require('../models/user');
 
 module.exports = (app) => {
 	app.post('/upload', (req, res) => {
 		if (!req.isAuthenticated()) {
-			res.sendStatus(401).redirect('/');
 			return;
 		}
 		const form = new formidable.IncomingForm();
@@ -28,6 +28,32 @@ module.exports = (app) => {
 			});
 		});
 		res.end();
+	});
+
+	app.post('/create-trade', (req, res) => {
+		if (!req.isAuthenticated()) {
+			res.sendStatus(401).redirect('/');
+			return;
+		}
+		const newTrade = new Trade();
+		newTrade.book1 = req.body.book1;
+		newTrade.book2 = req.body.book2;
+		newTrade.owner = req.user.local.username;
+		Book.findOneAndUpdate({ cover: req.body.book1 }, { $set: { inTrade: true } });
+		new Promise(resolve => {
+			Book.findOneAndUpdate({ cover: req.body.book2 }, { $set: { inTrade: true } }, (err, doc) => {
+				newTrade.recipient = doc.ownerName;
+				resolve();
+			});
+		}).then(() => {
+			newTrade.save(err => {
+				if (err) console.error(err);
+			});
+			Book.find({}, (err, books) => {
+				res.json(books);
+				res.end();
+			});
+		});
 	});
 
 	app.post('/update-user', (req, res) => {

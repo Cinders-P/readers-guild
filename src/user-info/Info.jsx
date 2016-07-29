@@ -9,7 +9,7 @@ const Info = ({ user, userEdit, toggleUE, handleSubmit }) =>
 				<input type='text' className='form-control' name='realname'></input>
 			</div>
 			<div className='input-group'>
-				<label>City:</label>
+				<label>Location:</label>
 				<input type='text' className='form-control' name='city'></input>
 			</div>
 			<div className='input-group'>
