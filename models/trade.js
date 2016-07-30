@@ -5,6 +5,8 @@ const TradeSchema = mongoose.Schema({
 	recipient: String,
 	book1: String,
 	book2: String,
+	title1: String,
+	title2: String,
 	completed: { type: Boolean, default: false },
 });
 

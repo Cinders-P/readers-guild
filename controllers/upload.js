@@ -39,19 +39,29 @@ module.exports = (app) => {
 		newTrade.book1 = req.body.book1;
 		newTrade.book2 = req.body.book2;
 		newTrade.owner = req.user.local.username;
-		Book.findOneAndUpdate({ cover: req.body.book1 }, { $set: { inTrade: true } });
-		new Promise(resolve => {
+		const p1 = new Promise(resolve =>
+			Book.findOneAndUpdate({ cover: req.body.book1 }, { $set: { inTrade: true } }, (err, doc) => {
+				newTrade.title1 = doc.title;
+				resolve();
+			}));
+		const p2 = new Promise(resolve => {
 			Book.findOneAndUpdate({ cover: req.body.book2 }, { $set: { inTrade: true } }, (err, doc) => {
 				newTrade.recipient = doc.ownerName;
+				newTrade.title2 = doc.title;
 				resolve();
 			});
-		}).then(() => {
+		});
+		Promise.all([p1, p2]).then(() => {
 			newTrade.save(err => {
 				if (err) console.error(err);
 			});
 			Book.find({}, (err, books) => {
-				res.json(books);
-				res.end();
+				const response = {};
+				response.books = books;
+				Book.find({ ownerName: req.user.local.username }, (err, myBooks) => {
+					response.myBooks = myBooks;
+					res.json(response);
+				});
 			});
 		});
 	});
@@ -108,7 +118,6 @@ module.exports = (app) => {
 					'local.realname': 1,
 				}, (err, user) => {
 					res.json(user.local);
-					res.end();
 				});
 			});
 		});

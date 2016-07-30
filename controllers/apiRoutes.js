@@ -1,11 +1,11 @@
 const Book = require('../models/book');
 const User = require('../models/user');
+const Trade = require('../models/trade');
 
 module.exports = (app) => {
 	app.get('/api/all-books', (req, res) => {
 		Book.find({}, (err, data) => {
 			res.json(data);
-			res.end();
 		});
 	});
 
@@ -20,12 +20,10 @@ module.exports = (app) => {
 	app.get('/api/my-books', (req, res) => {
 		Book.find({ ownerName: req.user.local.username }, (err, data) => {
 			res.json(data);
-			res.end();
 		});
 	});
 
 	app.get('/api/user', (req, res) => {
-		console.log('request for user');
 		User.findOne({ 'local.username': req.user.local.username }, {
 			'local.username': 1,
 			'local.city': 1,
@@ -37,14 +35,50 @@ module.exports = (app) => {
 		});
 	});
 
-	app.post('/api/delete-book', (req, res) => {
-		Book.findOneAndRemove({ ownerName: req.user.local.username, title: req.body.title }, (err) => {
-			if (!err) {
-				res.end('true');
+	app.get('/api/pending-trades', (req, res) => {
+		Trade.find({
+			$or: [{ owner: req.user.local.username }, { recipient: req.user.local.username }],
+		}, (err, trades) => {
+			if (trades.length) {
+				res.json(trades);
 			} else {
-				console.error(err);
-				res.end('false');
+				res.end('none');
 			}
+		});
+	});
+
+	app.post('/api/delete-book', (req, res) => {
+		const cover = req.body.cover;
+		Trade.findOne({ $or: [{ book1: cover }, { book2: cover }] }, (err, doc) => {
+			if (!doc) {
+				Book.findOneAndRemove({
+					cover,
+				}, (err) => {
+					if (!err) {
+						res.end('true');
+					} else {
+						console.error(err);
+						res.end('false');
+					}
+				});
+			} else {
+				res.end('trade');
+			}
+		});
+	});
+
+	app.post('/api/cancel-trade', (req, res) => {
+		const cover = req.body.cover;
+		Trade.findOneAndRemove({ book1: cover }, (err, doc) => {
+			Book.findOneAndUpdate({ cover: doc.book1 }, { $set: { inTrade: false } }, () => {});
+			Book.findOneAndUpdate({ cover: doc.book2 }, { $set: { inTrade: false } }, () => {});
+			Trade.find({}, (err, trades) => {
+				if (trades.length) {
+					res.json(trades);
+				} else {
+					res.json([]);
+				}
+			});
 		});
 	});
 };

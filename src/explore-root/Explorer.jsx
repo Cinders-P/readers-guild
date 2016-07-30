@@ -30,7 +30,7 @@ const Explorer = ({ myBooks, books, loggedIn, createTrade,
 				<div className='tradePanel'>
 					<h4>Your offer:</h4>
 					{myBooks.map((book) =>
-						(!book.inTrade ?
+						((!book.inTrade && book.cover !== selectedBook) ?
 						<button onClick={ createTrade.bind(null, book.cover, selectedBook) }
 							className='tradeButton'>{book.title}</button> : null)
 					)}

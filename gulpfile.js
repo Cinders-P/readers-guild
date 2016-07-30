@@ -28,8 +28,6 @@ gulp.task('build', function () {
 
 gulp.task('watch', ['build'], function () {
 	gulp.watch('./src/**', ['build']);
-	gulp.watch('./src/**/**', ['build']);
-	gulp.watch('./src/**/**/**', ['build']);
 });
 
 gulp.task('default', ['watch']);

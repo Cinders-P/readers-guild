@@ -10,11 +10,13 @@ import './parallax.js';
 import MyBooks from './books-root/MyBooks.jsx'; // Components/containers are PascalCase
 import Info from './user-info/Info.jsx';
 import Explorer from './explore-root/Explorer.jsx';
+import TradesPending from './trades-root/TradesPending.jsx';
 import myBooks from './books-root/myBooks.js'; // Actions/reducers are camelCase
 import user from './user-info/user.js';
 import userEdit from './user-info/userEdit.js';
 import tradePanel from './explore-root/tradePanel.js';
 import allBooks from './explore-root/allBooks.js';
+import tradesPending from './trades-root/tradesPending.js';
 
 const initialState = {
 	userEdit: false,
@@ -39,6 +41,7 @@ const initialState = {
 	},
 	allBooks: {},
 	loggedIn: false,
+	tradesPending: [],
 };
 
 const master = combineReducers({
@@ -48,6 +51,7 @@ const master = combineReducers({
 	loggedIn: (state = false) => state,
 	tradePanel,
 	allBooks,
+	tradesPending,
 });
 const middleware = applyMiddleware(logger(), thunk);
 
@@ -60,10 +64,7 @@ const renderProfile = (...promises) => {
 			<Info />
 			<MyBooks/>
 			<hr/>
-			<div className='trades-root'>
-				<h2>Trades Pending</h2>
-				<p>None</p>
-			</div>
+			<TradesPending/>
 			<hr/>
 			<div className='trades-done'>
 				<h2>Trade History</h2>
@@ -122,6 +123,13 @@ $(() => {
 				initialState.myBooks.books = res;
 			}).done(resolve);
 		});
-		renderProfile(p1, p2);
+		const p3 = new Promise(resolve => {
+			$.get('/api/pending-trades', res => {
+				if (res !== 'none') {
+					initialState.tradesPending = res;
+				}
+			}).done(resolve);
+		});
+		renderProfile(p1, p2, p3);
 	}
 });

@@ -24,7 +24,7 @@ const MyBooks = ({ uploadVisible, toggleUpload, deleteBook, books }) => (
 							<small>by {book.author}</small>
 						</div>
 						<div className='action'>
-							<button onClick={ deleteBook.bind(null, book.title) } className='btn'>Delete</button>
+							<button onClick={ deleteBook.bind(null, book.cover) } className='btn'>Delete</button>
 						</div>
 					</div>
 				</div>

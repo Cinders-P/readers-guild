@@ -1,6 +1,7 @@
 export const createTrade = (cover, selectedBook) => dispatch => {
 	$.post('/create-trade', { book1: cover, book2: selectedBook }, (res) => {
-		dispatch({ type: 'REFRESH_ALL_BOOKS', payload: res });
+		dispatch({ type: 'REFRESH_ALL_BOOKS', payload: res.books });
+		dispatch({ type: 'REFRESH_MY_BOOKS', payload: res.myBooks });
 		dispatch({ type: 'TRADE_PANEL_OFF' });
 		dispatch({ type: 'SET_SELECTED_BOOK', payload: '' });
 	});
