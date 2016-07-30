@@ -18,7 +18,6 @@ export const handleSubmit = () => {
 			contentType: false,
 			type: 'POST',
 		}).done((res) => {
-			console.log(res);
 			dispatch({ type: 'REFRESH_USER', payload: res });
 			dispatch({ type: 'TOGGLE_USER_EDIT' });
 		});

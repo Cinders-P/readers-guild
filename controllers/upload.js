@@ -24,7 +24,6 @@ module.exports = (app) => {
 
 			newBook.save((err) => {
 				if (err) console.error(err);
-				else console.log('Saved new book.');
 			});
 		});
 		res.end();

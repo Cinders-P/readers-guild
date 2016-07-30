@@ -9,7 +9,6 @@ module.exports = (app, passport) => {
 
 	app.use((req, res, next) => {
 		if (req.isAuthenticated()) {
-			console.log('logged in.');
 			loggedIn = true;
 		} else {
 			loggedIn = false;

@@ -3,7 +3,6 @@ const express = require('express');
 const stylus = require('stylus');
 const app = express();
 const server = require('http').createServer(app);
-const io = require('socket.io')(server);
 const morgan = require('morgan');
 const compression = require('compression');
 const path = require('path');
@@ -51,7 +50,6 @@ app.use(flash());
 
 // ROUTES
 require('./routes')(app, passport);
-require('./sockets')(io);
 
 // LAUNCH
 server.listen(process.env.PORT || 3000, () => {

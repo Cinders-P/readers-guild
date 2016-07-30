@@ -26,10 +26,8 @@ module.exports = (passport) => {
 						return done(null, false, req.flash('error', 'That user doesn\'t exist.'));
 					} else if (!user.validPassword(password)) {
 						return done(null, false, req.flash('error', 'Incorrect password.'));
-					} else {
-						console.log('Logging in user.');
-						return done(null, user);
 					}
+					return done(null, user);
 				});
 			});
 		}));
@@ -37,8 +35,6 @@ module.exports = (passport) => {
 	passport.use('signup', new LocalStrategy({
 		passReqToCallback: true,
 	}, (req, username, password, done) => {
-		console.log(req.body);
-
 		User.findOne({
 			$or: [{
 				'local.username': username,
@@ -65,7 +61,6 @@ module.exports = (passport) => {
 				newUser.local.newsletter = false;
 			}
 			newUser.save((err) => {
-				console.log('Creating new user.');
 				if (err) throw err;
 				return done(null, newUser);
 			});
