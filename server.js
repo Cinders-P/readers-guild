@@ -11,12 +11,12 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const db = mongoose.connection;
-const keys = require('./config/keys');
+// const keys = require('./config/keys');
 const flash = require('connect-flash');
 const passport = require('passport');
 
 // SETTINGS
-mongoose.connect(keys.db);
+mongoose.connect(process.env.db);
 db.on('error', console.error.bind(console, 'connection error:'));
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, '/views'));
@@ -36,7 +36,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 app.use(session({
-	secret: keys.cookie,
+	secret: process.env.cookie,
 	saveUninitialized: true,
 	resave: true,
 	cookie: {
