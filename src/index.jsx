@@ -17,6 +17,7 @@ import userEdit from './user-info/userEdit.js';
 import tradePanel from './explore-root/tradePanel.js';
 import allBooks from './explore-root/allBooks.js';
 import tradesPending from './trades-root/tradesPending.js';
+import tradesDone from './trades-root/tradesDone.js';
 
 const initialState = {
 	userEdit: false,
@@ -42,6 +43,7 @@ const initialState = {
 	allBooks: {},
 	loggedIn: false,
 	tradesPending: [],
+	tradesDone: [],
 };
 
 const master = combineReducers({
@@ -52,6 +54,7 @@ const master = combineReducers({
 	tradePanel,
 	allBooks,
 	tradesPending,
+	tradesDone,
 });
 const middleware = applyMiddleware(logger(), thunk);
 
@@ -65,11 +68,6 @@ const renderProfile = (...promises) => {
 			<MyBooks/>
 			<hr/>
 			<TradesPending/>
-			<hr/>
-			<div className='trades-done'>
-				<h2>Trade History</h2>
-				<p>None</p>
-			</div>
 		</div>
 	</Provider>, document.getElementById('profile-root'));
 	}).then(() => {
@@ -130,6 +128,13 @@ $(() => {
 				}
 			}).done(resolve);
 		});
-		renderProfile(p1, p2, p3);
+		const p4 = new Promise(resolve => {
+			$.get('/api/trades-completed', res => {
+				if (res !== 'none') {
+					initialState.tradesDone = res;
+				}
+			}).done(resolve);
+		});
+		renderProfile(p1, p2, p3, p4);
 	}
 });

@@ -19,7 +19,14 @@ block content
                     label
                         input(type="checkbox" name='newsletter' value='true')
                         |  Yes, email me monthly newsletters and information about upcoming events.
-                    button.btn Submit	
+                    button.btn Submit
+        else
+            form.v2
+                h1.welcome-msg
+                    span.display-4 Welcome to
+                    p.display-4 The
+                    p.display-2 Readers'
+                    p.display-1 Guild
     div
         .container
             .row
@@ -27,5 +34,5 @@ block content
                 p.col-xs-6 The Readers' Guild is a book trading club powered by readers across the globe. Stay informed of the latest happenings in literature.
             .row
                 i.fa.fa-book.fa-4x.col-xs-2(aria-hidden="true")
-                p.col-xs-6 Send and receive trade requests with our real-time trading system. No delays, no fuss. Access the site's catalogue to browse for books.
+                p.col-xs-6 Send and receive trade requests with our rapid trading system. No delays, no fuss. Access the site's catalogue to browse for books.
     .books

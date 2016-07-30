@@ -39,13 +39,21 @@ module.exports = (app) => {
 		newTrade.book1 = req.body.book1;
 		newTrade.book2 = req.body.book2;
 		newTrade.owner = req.user.local.username;
-		const p1 = new Promise(resolve =>
+		const p1 = new Promise((resolve, reject) =>
 			Book.findOneAndUpdate({ cover: req.body.book1 }, { $set: { inTrade: true } }, (err, doc) => {
+				if (doc.inTrade === true) {
+					reject();
+					return;
+				}
 				newTrade.title1 = doc.title;
 				resolve();
 			}));
-		const p2 = new Promise(resolve => {
+		const p2 = new Promise((resolve, reject) => {
 			Book.findOneAndUpdate({ cover: req.body.book2 }, { $set: { inTrade: true } }, (err, doc) => {
+				if (doc.inTrade === true) {
+					reject();
+					return;
+				}
 				newTrade.recipient = doc.ownerName;
 				newTrade.title2 = doc.title;
 				resolve();
@@ -63,6 +71,8 @@ module.exports = (app) => {
 					res.json(response);
 				});
 			});
+		}).catch(() => {
+			res.end('trade');
 		});
 	});
 
